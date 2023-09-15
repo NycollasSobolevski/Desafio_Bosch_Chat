@@ -1,0 +1,138 @@
+*{
+  border: 0; 
+  margin: 0;
+  padding: 0;
+}
+
+button{
+  background-color: transparent;
+}
+
+header::before{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+  content: '';
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-image: url('../../Bosch-Supergraphic_RGB.svg');
+}
+
+header{
+  width: 100vw;
+  padding: 2rem 1rem 2rem 1rem ;
+  
+  span{
+    font-family: 'Bosch Sans Global Black';
+    color: var(--Bosch-Red-50);
+    font-size: 2.5rem;
+    margin-left: 1rem;
+  }
+  
+  .brand-logo{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+    .logo{
+      display: flex;
+      align-items: center;
+      text-align: center;
+      
+    }
+
+    @media ( max-width: 48rem) {
+      width: 100%;
+      justify-content: space-around;
+    }
+  }
+
+  .main-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    .links{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+  
+      @media (max-width: 48rem){
+        display: none;
+        flex-direction: column;
+      }
+    }
+
+    .menu-open{
+      display: flex;
+    }
+  
+    @media (max-width: 48rem ) {
+      flex-direction: column;
+    }
+    @media (max-width: 20rem){
+      justify-content: space-around;
+    }
+  }
+
+  
+
+  .navlinks-togle-container{
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    .button-icon{
+      height: 3rem;
+      width: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.4rem;
+  
+      span{
+        width: 1.125rem;
+        height:.0625rem;
+        background-color: var( --integrated_enabled_span);
+        background-color: black;
+        margin: 0;
+        transition: all .5s;
+      }
+      span:nth-child(4){
+        display: none;
+      }
+      .menu-open-icon{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .menu-open-icon:nth-child(2){
+        transform: rotate(45deg) scaleX(1.2);
+      }
+      .menu-open-icon:nth-child(3){
+        transform: rotate(-45deg) scaleX(1.2) translateY(-.25rem) translateX(.25rem);
+      }
+      .menu-open-icon:nth-child(4), .menu-open-icon:nth-child(1){
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 48rem){
+      display: flex;
+    }
+    @media (max-width: 20rem) {
+      
+      label{
+        display: none;
+      }
+    }
+  }
+}
+
+
+

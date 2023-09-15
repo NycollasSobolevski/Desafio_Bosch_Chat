@@ -1,0 +1,19 @@
+*{
+  border: 0; 
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: 'Bosch Sans Black';
+  src: url(./fonts/BoschSansGlobal-Black-v2_202.ttf);
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}

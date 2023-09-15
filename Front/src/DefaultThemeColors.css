@@ -1,0 +1,14 @@
+:root{
+  --Bosch-Red-50: #ED0007;
+  --Bosch-Black: #000;
+  --Bosch-Gray-90: #e0e2e5;
+  --Bosch-Blue-50: #007bc0;
+  --Bosch-White: #fff;
+}
+
+:root{
+  --integrated_enabled_span:var(--Bosch-Black);
+  --natural-input-off-select: var(--Bosch-Gray-90);
+  --button-primary-color: var(--Bosch-Blue-50);
+  --button-primary-font-color: var(--Bosch-White);
+}
