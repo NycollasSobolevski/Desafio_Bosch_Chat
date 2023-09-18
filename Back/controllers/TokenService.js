@@ -14,7 +14,7 @@ class TokenService {
                 expiresIn: '2 days'
             }
         )
-
+        
         return token
     }
 

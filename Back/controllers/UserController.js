@@ -162,27 +162,35 @@ class UserController {
         
         const {
             emailUser,
-            password
+            pass
         } = data
 
         try {
-            var userByEmail = await User.find({ email : emailUser })
+            var userByEmail = await User.findOne({ email : emailUser })
+
             if (!userByEmail)
-                userByEmail = await User.find({ username : emailUser })
+                userByEmail = await User.findOne({ username : emailUser })
+            
 
             if (!userByEmail)
                 return Responses.NotFound(req, res)
 
-            salt = userByEmail.salt
+            var salt = userByEmail.salt
 
-            passHash = CryptoJS.MD5(password, salt)
+
+            var hash = CryptoJS.MD5(pass, salt);
+            console.log(hash);
+            console.log(userByEmail);
 
             var isLog;
-            userByEmail.pass == passHash? isLog = true : isLog = false
+                userByEmail.pass == hash? isLog = true : isLog = false
 
-            const token = Token.generate(userByEmail)
+            if (isLog)
+                return Responses.Unauthorized(req, res)
 
-            sessionStorage.setItem('token', token)
+            const token = await Token.generate(userByEmail)
+            
+            // sessionStorage.setItem('token', token)
             
             return res.status(200).send({
                 logged : true,
@@ -192,9 +200,10 @@ class UserController {
         } catch (e) {
             return res.status(500).send({
                 error : true,
-                message : "Internal Server Error"
+                message : e.message
             })
         }
+
     }
 }
 

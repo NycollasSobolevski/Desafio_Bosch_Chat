@@ -11,6 +11,7 @@ class UserService {
   static login = async (data) => {
     const apiKey = process.env.REACT_APP_API_URL;
     console.log(apiKey);
+    return await axios.post(`http://localhost:8000/user/login`, data);
     return await axios.post(`${apiKey}/user/Login`, data);
   }
 }

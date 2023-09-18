@@ -10,8 +10,16 @@ const LoginPage = () => {
 
     //!functions
     const Login = async (params) => {
-        const encryptData = CryptoJS.AES.encrypt( params, encryptPassword )
-        const res = await UserService.login(encryptData);
+        const data = {
+            emailUser: params.emailUser,
+            password: params.password
+        }
+        const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString()
+        const body = {
+            data : encryptData
+        }
+        console.log(body);
+        const res = await UserService.login(body);
         console.log(res);
 
         if (res.status == 200) {
@@ -49,11 +57,11 @@ const LoginPage = () => {
 
     //!components
     const LoginComponent = () => {
-        const [identify, setIdentify] = useState('');
+        const [emailUser, setIdentify] = useState('');
         const [password, setPassword] = useState('');
         if (subscribe) return;
         const data = {
-            identify,
+            emailUser,
             password
         }
         return (
