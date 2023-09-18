@@ -17,23 +17,26 @@ const LoginPage = () => {
         }
         window.location.reload();
     }
-    const handleSubscribe = useCallback( async (data) => {
-        const res = await axios.post("http://localhost:8000/user/add", data);
-        console.log(res);
-    }, [])
     const SignUp = async (params) => {
         const { username, email, password, repassword } = params;
         if (password != repassword) return;
         const data = {
+            name: username,
+            pass: password,
+            photo: "photo",
+            backphoto: "backphoto",
             username: username,
             email: email,
-            password: password,
+            //!test area 
+            verbose: true
         }
-        // const encryptPassword = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD;
-        // console.log(encryptPassword);
-        // const data = CryptoJS.AES.encrypt( params, encryptPassword ).toString();
+        const encryptPassword = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD;
+        const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString();
+        const body = {
+            data: encryptData
+        }
         try {
-            const res = await UserService.createUser(data);
+            const res = await UserService.createUser(body);
             console.log(res);
 
         }
@@ -107,7 +110,7 @@ const LoginPage = () => {
                     </span>
                     <div className={"ButtonSession"}>
                         <button onClick={() => setSubscribe(false)}>Login</button>
-                        <button type="submit" onClick={() => handleSubscribe(data)}>Submit</button>
+                        <button type="submit" onClick={() => SignUp(data)}>Submit</button>
                     </div>
                 </div>
             </>
