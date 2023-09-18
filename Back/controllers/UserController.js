@@ -1,4 +1,5 @@
 const User = require("../model/user")
+const Decrypt = require('./Decrypt')
 const CryptoJS = require('crypto-js')
 const Responses = require('./Responses')
 
@@ -37,7 +38,8 @@ class UserController {
             console.log(req.body)
             console.log('forum create')
         }
-        
+
+        const data = Decrypt.decrypt(req.body.data)
 
         const {
             name,
@@ -46,7 +48,7 @@ class UserController {
             backPhoto,
             username,
             email
-        } = req.body
+        } = data
 
         var passH, salt = generatePass(pass)
 
@@ -147,10 +149,12 @@ class UserController {
     }
 
     static async login(req, res) {
+        const data = Decrypt.decrypt(req.body.data, req.body.verbose)
+        
         const {
             emailUser,
             password
-        } = req.body
+        } = data
 
         try {
             var userByEmail = await User.find({ email : emailUser })
@@ -184,10 +188,14 @@ class UserController {
                 data : userByEmail
             })
         } catch (e) {
-
+            return res.status(500).send({
+                error : true,
+                message : "Internal Server Error"
+            })
         }
     }
 
+    
 }
 
 module.exports = UserController

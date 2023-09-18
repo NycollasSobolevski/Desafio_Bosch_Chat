@@ -11,15 +11,6 @@ class PostController {
             console.log('forum getall')
         }
 
-        const { page, itemPerPage } = req.params
-
-        // var p;
-        // if (page)
-        //     p = page
-
-        // if (!itemPerPage)
-        //     return Responses.BadRequest(req, res)
-
         try {
             const data = await Post.find()
     
