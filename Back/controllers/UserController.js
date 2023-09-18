@@ -1,4 +1,5 @@
 const User = require("../model/user")
+const Decrypt = require('./Decrypt')
 const CryptoJS = require('crypto-js')
 const Responses = require('./Responses')
 
@@ -37,7 +38,8 @@ class UserController {
             console.log(req.body)
             console.log('forum create')
         }
-        
+
+        const data = Decrypt.decrypt(req.body.data)
 
         const {
             name,
@@ -46,7 +48,7 @@ class UserController {
             backPhoto,
             username,
             email
-        } = req.body
+        } = data
 
         var passH, salt = generatePass(pass)
 
@@ -147,58 +149,53 @@ class UserController {
     }
 
     static async login(req, res) {
-        console.log('req')
-        console.log(req.body)
+        const data = Decrypt.decrypt(req.body.data, req.body.verbose)
         
-        const pass = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD
+        const {
+            emailUser,
+            password
+        } = data
 
-        const decrypt = CryptoJS.AES.decrypt(req.body, "lol")
-        
-        console.log(decrypt)
-        // const {
-        //     emailUser,
-        //     password
-        // } = req.body
+        try {
+            var userByEmail = await User.find({ email : emailUser })
+            if (!userByEmail)
+                userByEmail = await User.find({ username : emailUser })
 
-        // try {
-        //     var userByEmail = await User.find({ email : emailUser })
-        //     if (!userByEmail)
-        //         userByEmail = await User.find({ username : emailUser })
+            if (!userByEmail)
+                return Responses.NotFound(req, res)
 
-        //     if (!userByEmail)
-        //         return Responses.NotFound(req, res)
+            salt = userByEmail.salt
 
-        //     salt = userByEmail.salt
+            passHash = CryptoJS.MD5(password, salt)
 
-        //     passHash = CryptoJS.MD5(password, salt)
+            var isLog;
+            userByEmail.pass == passHash? isLog = true : isLog = false
 
-        //     var isLog;
-        //     userByEmail.pass == passHash? isLog = true : isLog = false
-
-        //     let secret = process.env.SECRET
-        //     let token = jwt.sign(
-        //         {
-        //             id: userByEmail._id
-        //         },
-        //         secret,
-        //         {
-        //             expiresIn: '2 days'
-        //         }
-        //     )
+            let secret = process.env.SECRET
+            let token = jwt.sign(
+                {
+                    id: userByEmail._id
+                },
+                secret,
+                {
+                    expiresIn: '2 days'
+                }
+            )
             
-        //     return res.status(200).send({
-        //         logged : true,
-        //         token : token,
-        //         data : userByEmail
-        //     })
-        // } catch (e) {
-        //     return res.status(500).send({
-        //         error : true,
-        //         message : "Internal Server Error"
-        //     })
-        // }
+            return res.status(200).send({
+                logged : true,
+                token : token,
+                data : userByEmail
+            })
+        } catch (e) {
+            return res.status(500).send({
+                error : true,
+                message : "Internal Server Error"
+            })
+        }
     }
 
+    
 }
 
 module.exports = UserController
