@@ -30,6 +30,7 @@ class UserController {
     }
 
     static async create (req, res) {
+        console.log(req.body);
         const { verbose } = req.body
 
         if (verbose)

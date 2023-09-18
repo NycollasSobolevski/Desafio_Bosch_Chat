@@ -1,23 +1,26 @@
 import { useCallback, useState } from 'react'
 import './styles.scss'
-import UserService from '../../services/user/user.service';
+import UserService from '../../services/user/userService';
 import CryptoJS from 'crypto-js';
 import axios from "axios";
 
 const LoginPage = () => {
     const [subscribe, setSubscribe] = useState(false);
+    const encryptPassword = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD;
 
     //!functions
     const Login = async (params) => {
-        const sla = await UserService.login(params);
-        console.log(sla);
+        const encryptData = CryptoJS.AES.encrypt( params, encryptPassword )
+        const res = await UserService.login(encryptData);
+        console.log(res);
 
-        if (sla.status == 200) {
-            sessionStorage.setItem('jwt', sla.data);
+        if (res.status == 200) {
+            sessionStorage.setItem('jwt', res.token);
         }
         window.location.reload();
     }
     const SignUp = async (params) => {
+        console.log(encryptPassword);
         const { username, email, password, repassword } = params;
         if (password != repassword) return;
         const data = {
@@ -30,15 +33,13 @@ const LoginPage = () => {
             //!test area 
             verbose: true
         }
-        const encryptPassword = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD;
         const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString();
         const body = {
             data: encryptData
         }
         try {
-            const res = await UserService.createUser(body);
+            const res = await UserService.createUser(data);
             console.log(res);
-
         }
         catch (exp) {
             console.log(exp);

@@ -88,6 +88,7 @@ window.env = {
   "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\PowerShell\\Modules\\",
   "PUBLIC": "C:\\Users\\Public",
   "PWD": "C:/Users/disrct/Desktop/Nycollas/Desafio_Bosch_Chat/Front",
+  "REACT_APP_API_URL": "http://localhost:8000",
   "REACT_APP_ENCRYPT_DATA_PASSWORD": "FLINSTON",
   "REDHAT_JAVA_HOME": "C:\\Program Files\\RedHat\\java-1.8.0-openjdk\\",
   "SAPKM_USER_TEMP": "C:\\Users\\disrct\\AppData\\Local",
