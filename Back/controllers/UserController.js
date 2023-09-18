@@ -147,45 +147,56 @@ class UserController {
     }
 
     static async login(req, res) {
-        const {
-            emailUser,
-            password
-        } = req.body
+        console.log('req')
+        console.log(req.body)
+        
+        const pass = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD
 
-        try {
-            var userByEmail = await User.find({ email : emailUser })
-            if (!userByEmail)
-                userByEmail = await User.find({ username : emailUser })
+        const decrypt = CryptoJS.AES.decrypt(req.body, "lol")
+        
+        console.log(decrypt)
+        // const {
+        //     emailUser,
+        //     password
+        // } = req.body
 
-            if (!userByEmail)
-                return Responses.NotFound(req, res)
+        // try {
+        //     var userByEmail = await User.find({ email : emailUser })
+        //     if (!userByEmail)
+        //         userByEmail = await User.find({ username : emailUser })
 
-            salt = userByEmail.salt
+        //     if (!userByEmail)
+        //         return Responses.NotFound(req, res)
 
-            passHash = CryptoJS.MD5(password, salt)
+        //     salt = userByEmail.salt
 
-            var isLog;
-            userByEmail.pass == passHash? isLog = true : isLog = false
+        //     passHash = CryptoJS.MD5(password, salt)
 
-            let secret = process.env.SECRET
-            let token = jwt.sign(
-                {
-                    id: userByEmail._id
-                },
-                secret,
-                {
-                    expiresIn: '2 days'
-                }
-            )
+        //     var isLog;
+        //     userByEmail.pass == passHash? isLog = true : isLog = false
+
+        //     let secret = process.env.SECRET
+        //     let token = jwt.sign(
+        //         {
+        //             id: userByEmail._id
+        //         },
+        //         secret,
+        //         {
+        //             expiresIn: '2 days'
+        //         }
+        //     )
             
-            return res.status(200).send({
-                logged : true,
-                token : token,
-                data : userByEmail
-            })
-        } catch (e) {
-
-        }
+        //     return res.status(200).send({
+        //         logged : true,
+        //         token : token,
+        //         data : userByEmail
+        //     })
+        // } catch (e) {
+        //     return res.status(500).send({
+        //         error : true,
+        //         message : "Internal Server Error"
+        //     })
+        // }
     }
 
 }
