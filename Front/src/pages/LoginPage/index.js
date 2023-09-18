@@ -38,7 +38,7 @@ const LoginPage = () => {
             data: encryptData
         }
         try {
-            const res = await UserService.createUser(data);
+            const res = await UserService.createUser(body);
             console.log(res);
         }
         catch (exp) {
