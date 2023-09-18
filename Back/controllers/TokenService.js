@@ -18,8 +18,11 @@ class TokenService {
         return token
     }
 
-    static async verifyToken() {
+    static async verifyToken(verbose=false) {
         const token = sessionStorage.getItem('token')
+
+        if (verbose)
+            console.log(`Token from session storage: ${token}`)
         
         return jwt.verify(token, process.env.SECRET)
     }

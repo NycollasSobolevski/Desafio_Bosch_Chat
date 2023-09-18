@@ -88,11 +88,11 @@ class PostController {
             return Responses.Unauthorized()
         }
 
-        const res = await Post.deleteOne({_id : id})
+        const _res = await Post.deleteOne({_id : id})
 
         return res.status(200).send({
             message : "deleted post",
-            data : res,
+            data : _res,
             deleted : true
         })
     }

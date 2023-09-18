@@ -52,12 +52,16 @@ class UserController {
             email
         } = data
 
-        var passH, salt = generatePass(pass)
+        var passGen = generatePass(pass)
+        
+        
+        if (verbose)
+            console.log(passGen)
 
         const user = {
             name: name,
-            pass: passH,
-            salt: salt,
+            pass: passGen.hash,
+            salt: passGen.salt,
             backPhoto: backPhoto,
             photo: photo,
             username: username,
@@ -90,7 +94,7 @@ class UserController {
             if (verbose)
                 console.log(`passwordHash: ${hash}\nsalt: ${salt}`)
             
-            return hash, salt
+            return { hash : hash, salt : salt}
         }
     }
 
@@ -177,6 +181,8 @@ class UserController {
             userByEmail.pass == passHash? isLog = true : isLog = false
 
             const token = Token.generate(userByEmail)
+
+            sessionStorage.setItem('token', token)
             
             return res.status(200).send({
                 logged : true,
@@ -190,8 +196,6 @@ class UserController {
             })
         }
     }
-
-    
 }
 
 module.exports = UserController
