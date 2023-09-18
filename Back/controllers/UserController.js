@@ -38,7 +38,7 @@ class UserController {
         {
             console.log('req: ')
             console.log(req.body)
-            console.log('forum create')
+            console.log('user create')
         }
 
         const data = Decrypt.decrypt(req.body.data)
@@ -63,6 +63,9 @@ class UserController {
             username: username,
             email: email
         } 
+
+        if (verbose)
+            console.log(user)
 
 
         try {

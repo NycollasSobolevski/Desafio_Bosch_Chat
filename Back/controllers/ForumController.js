@@ -26,6 +26,10 @@ class PostController {
     }
     
     static async create (req, res) {
+
+        if (!TokenService.verifyToken())
+            return Responses.Unauthorized()
+
         const { verbose } = req.data
 
         if (verbose) {
@@ -34,13 +38,15 @@ class PostController {
             console.log('forum create')
         }
 
+        const data = Decrypt.decrypt(req.body.data)
+
         const {
             title,
             content,
             anex,
             photo,
             forum,
-        } = req.body
+        } = data
 
         const post = {
             title: title,
@@ -78,22 +84,17 @@ class PostController {
             token
         } = data
 
-        if (TokenService.verifyToken) {
-            const res = await Post.deleteOne({_id : id})
-
-            res.status(200).send({
-                message : "deleted post",
-                data : res,
-                deleted : true
-            })
-        } else {
-            res.status(501).send({
-                message : "dont have permission",
-                logged  : false
-            })
+        if (!TokenService.verifyToken) {
+            return Responses.Unauthorized()
         }
-        
 
+        const res = await Post.deleteOne({_id : id})
+
+        return res.status(200).send({
+            message : "deleted post",
+            data : res,
+            deleted : true
+        })
     }
 }
 

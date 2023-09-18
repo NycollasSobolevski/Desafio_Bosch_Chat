@@ -20,6 +20,14 @@ class Responses {
             data: e,
         })
     }
+
+    static Unauthorized(req, res) {
+        return res.status(401).send({
+            message : "dont have permission",
+            logged  : false,
+            error: true
+        })
+    }
 }
 
 module.exports = Responses
