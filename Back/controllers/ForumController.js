@@ -1,5 +1,7 @@
 const Post = require('../model/Post')
 const Responses = require('./Responses')
+const Decrypt = require('./Decrypt')
+const TokenService = require('./TokenService')
 
 class PostController {
     static async getAll (req, res) {
@@ -66,6 +68,32 @@ class PostController {
                 data: e,
             })
         }
+    }
+
+    static async delete (req, res) {
+        const data = Decrypt.decrypt(req.body.data, req.body.verbose)
+        
+        const {
+            id,
+            token
+        } = data
+
+        if (TokenService.verifyToken) {
+            const res = await Post.deleteOne({_id : id})
+
+            res.status(200).send({
+                message : "deleted post",
+                data : res,
+                deleted : true
+            })
+        } else {
+            res.status(501).send({
+                message : "dont have permission",
+                logged  : false
+            })
+        }
+        
+
     }
 }
 

@@ -2,6 +2,7 @@ const User = require("../model/user")
 const Decrypt = require('./Decrypt')
 const CryptoJS = require('crypto-js')
 const Responses = require('./Responses')
+const Token = require('./TokenService')
 
 class UserController {
     static async getAll (req, res) {
@@ -172,16 +173,7 @@ class UserController {
             var isLog;
             userByEmail.pass == passHash? isLog = true : isLog = false
 
-            let secret = process.env.SECRET
-            let token = jwt.sign(
-                {
-                    id: userByEmail._id
-                },
-                secret,
-                {
-                    expiresIn: '2 days'
-                }
-            )
+            const token = Token.generate(userByEmail)
             
             return res.status(200).send({
                 logged : true,
