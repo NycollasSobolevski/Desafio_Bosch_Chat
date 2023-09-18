@@ -41,7 +41,7 @@ class UserController {
             console.log('user create')
         }
 
-        const data = Decrypt.decrypt(req.body.data)
+        const data = await Decrypt.decrypt(req.body.data)
 
         const {
             name,
@@ -154,7 +154,7 @@ class UserController {
     }
 
     static async login(req, res) {
-        const data = Decrypt.decrypt(req.body.data, req.body.verbose)
+        const data = await Decrypt.decrypt(req.body.data, req.body.verbose)
         
         const {
             emailUser,

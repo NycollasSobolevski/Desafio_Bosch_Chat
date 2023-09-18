@@ -38,7 +38,7 @@ class PostController {
             console.log('forum create')
         }
 
-        const data = Decrypt.decrypt(req.body.data)
+        const data = await Decrypt.decrypt(req.body.data)
 
         const {
             title,
@@ -77,7 +77,7 @@ class PostController {
     }
 
     static async delete (req, res) {
-        const data = Decrypt.decrypt(req.body.data, req.body.verbose)
+        const data = await Decrypt.decrypt(req.body.data, req.body.verbose)
         
         const {
             id,

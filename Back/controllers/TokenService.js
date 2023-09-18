@@ -20,6 +20,7 @@ class TokenService {
 
     static async verifyToken() {
         const token = sessionStorage.getItem('token')
+        
         return jwt.verify(token, process.env.SECRET)
     }
 }
