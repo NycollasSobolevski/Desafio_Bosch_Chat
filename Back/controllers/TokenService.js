@@ -18,13 +18,21 @@ class TokenService {
         return token
     }
 
-    static async verifyToken(verbose=false) {
-        const token = sessionStorage.getItem('token')
-
+    static async verifyToken(token, verbose=false) {
         if (verbose)
-            console.log(`Token from session storage: ${token}`)
+            console.log(`Token from session storage: ${sessionStorage.getItem('token')}`)
         
         return jwt.verify(token, process.env.SECRET)
+    }
+
+    static async getUserByToken(token, verbose=false) {        
+        const user = jwt.decode(token, process.env.SECRET)
+        
+        if (verbose) {
+            console.log(`Token: ${token}`)
+            console.log(`User: ${user}`)
+        }
+        return user
     }
 }
 

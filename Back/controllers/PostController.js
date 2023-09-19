@@ -5,8 +5,12 @@ const TokenService = require('./TokenService')
 
 class PostController {
     static async getAll (req, res) {
-        const { verbose } = req.body
+        const { verbose, token } = req.body
 
+        if (!TokenService.verifyToken(token))
+            return Responses.Unauthorized(req, res)
+
+            
         if (verbose) {
             console.log('req: ')
             console.log(req)
@@ -77,24 +81,40 @@ class PostController {
     }
 
     static async delete (req, res) {
-        const data = await Decrypt.decrypt(req.body.data, req.body.verbose)
+        const isVerbose = req.body.verbose
+        const data = await Decrypt.decrypt(req.body.data, isVerbose)
         
         const {
             id,
             token
         } = data
 
-        if (!TokenService.verifyToken) {
+        if (!TokenService.verifyToken(token, isVerbose)) {
             return Responses.Unauthorized()
         }
 
-        const _res = await Post.deleteOne({_id : id})
+        const user = await TokenService.getUserByToken(token, isVerbose)
+        
+        const postToDelete = await Post.findOne({
+            _id : id
+        })
 
+        if (postToDelete.author._id != user._id)
+            return res.status(401).send({
+                message: "try to delete a anothers person post",
+                data: {postAuthorId : postToDelete._id, thisId : user._id},
+                deleted: false,
+                error: true
+            })
+        
+        const _res = await Post.deleteOne({_id : id})
         return res.status(200).send({
             message : "deleted post",
             data : _res,
             deleted : true
         })
+
+
     }
 }
 
