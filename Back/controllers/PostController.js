@@ -33,6 +33,7 @@ class PostController {
     }
 
     static async create(req, res) {
+        console.log(req.body);
         const { verbose, token } = req.body
 
         var isLogged = await TokenService.verifyToken(token)

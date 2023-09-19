@@ -7,7 +7,8 @@ class PostService  {
   }
 
   static createPost = async (data) => {
-    return axios.post(`${this.backUrl}/post`, data)
+    console.log(data);
+    return axios.post(`${this.backUrl}/post`, {...data, verbose: true})
   }
 }
 

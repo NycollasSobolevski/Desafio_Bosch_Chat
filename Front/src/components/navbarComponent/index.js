@@ -40,7 +40,7 @@ function ColorSchemesExample() {
                     <div className={`links ${seeMenu? "menu-open":""}`}>
                         <NavLink onClick={() => toggleCreatePost()}>Create Post</NavLink>
                         <NavLink>Posts</NavLink>
-                        <NavLink>Exit</NavLink>
+                        <NavLink onClick={() => Logout()}>Exit</NavLink>
                     </div>
                 </div>
             </header>
