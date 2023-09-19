@@ -19,6 +19,9 @@ class TokenService {
     }
 
     static async verifyToken(token, verbose=false) {
+        if (!token)
+            return false
+
         if (verbose)
             console.log(`Token from session storage: ${sessionStorage.getItem('token')}`)
         
@@ -30,8 +33,10 @@ class TokenService {
         
         if (verbose) {
             console.log(`Token: ${token}`)
-            console.log(`User: ${user}`)
+            console.log(`User: `)
+            console.log(user)
         }
+        
         return user
     }
 }

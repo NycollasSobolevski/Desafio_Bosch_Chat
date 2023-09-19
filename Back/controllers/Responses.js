@@ -8,7 +8,7 @@ class Responses {
 
     static NotFound(req, res) {
         return res.status(404).send({
-            message: 'user not found',
+            message: 'Not Found',
             error: true
         })
     }

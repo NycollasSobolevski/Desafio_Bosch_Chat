@@ -1,15 +1,16 @@
 const mongoose = require('mongoose')
 
-const Post = mongoose.model('Post', {
+
+var schema = new mongoose.Schema({
     title: String,
     content: String,
     anex: Object,
-    photo: Object,
-    forum: Object,
-    upVotes: Object,
-    downVotes: Object,
-    comments: Object,
-    author: Object
+    upVotes: [Object],
+    downVotes: [Object],
+    comments: [ { type : mongoose.Schema.Types.ObjectId, ref: 'Comment' } ],
+    author: { type : mongoose.Schema.Types.ObjectId, ref: 'User' }
 })
+
+const Post = mongoose.model('Post', schema)
 
 module.exports = Post

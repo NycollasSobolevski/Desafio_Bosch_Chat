@@ -6,5 +6,6 @@ router
     .get('/post/', PostController.getAll)
     .post('/post/', PostController.create)
     .post('/post/delete', PostController.delete)
+    .post('/post/comment', PostController.addComment)
 
 module.exports = router
