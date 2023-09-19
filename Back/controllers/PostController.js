@@ -7,14 +7,15 @@ class PostController {
     static async getAll (req, res) {
         const { verbose, token } = req.body
 
-        if (!TokenService.verifyToken(token))
+        var isLogged = await TokenService.verifyToken(token)
+        if (!isLogged)
             return Responses.Unauthorized(req, res)
 
             
         if (verbose) {
-            console.log('req: ')
-            console.log(req)
             console.log('forum getall')
+            console.log('Your token: ')
+            console.log(token)
         }
 
         try {
@@ -34,7 +35,7 @@ class PostController {
         if (!TokenService.verifyToken())
             return Responses.Unauthorized()
 
-        const { verbose } = req.data
+        const { verbose, token } = req.body
 
         if (verbose) {
             console.log('req: ')
@@ -43,24 +44,23 @@ class PostController {
         }
 
         const data = await Decrypt.decrypt(req.body.data)
-
         const {
             title,
             content,
             anex,
-            photo,
-            forum,
         } = data
+
+
+        const author = TokenService.getUserByToken(token)
 
         const post = {
             title: title,
             content: content,
             anex: anex,
-            photo: photo,
-            forum: forum,
-            upVotes: {},
-            downVotes: {},
-            forum: {}
+            author : author,
+            upVotes: [],
+            downVotes: [],
+            comments : []
         } 
 
 

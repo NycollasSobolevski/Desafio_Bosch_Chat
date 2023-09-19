@@ -19,6 +19,9 @@ class TokenService {
     }
 
     static async verifyToken(token, verbose=false) {
+        if (!token)
+            return false
+
         if (verbose)
             console.log(`Token from session storage: ${sessionStorage.getItem('token')}`)
         
