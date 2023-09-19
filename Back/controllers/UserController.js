@@ -31,7 +31,6 @@ class UserController {
     }
 
     static async create (req, res) {
-        console.log(req.body);
         const { verbose } = req.body
 
         if (verbose)
@@ -99,8 +98,13 @@ class UserController {
     }
 
     static async update (req, res) {
-        console.log('log');
-        console.log(req.body)
+
+        const { verbose } = req.body
+
+        if (verbose) {
+            console.log('log');
+            console.log(req.body)
+        }
 
         const {
             id,
@@ -179,8 +183,6 @@ class UserController {
 
 
             var hash = CryptoJS.MD5(pass, salt);
-            console.log(hash);
-            console.log(userByEmail);
 
             var isLog;
                 userByEmail.pass == hash? isLog = true : isLog = false
