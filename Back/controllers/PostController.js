@@ -45,7 +45,6 @@ class PostController {
             console.log('post create')
         }
 
-        // const data = req.body
         const data = await Decrypt.decrypt(req.body.data)
         const {
             title,
@@ -97,7 +96,6 @@ class PostController {
             return Responses.Unauthorized(req, res)
 
 
-        // const data = req.body
         const data = await Decrypt.decrypt(req.body.data, verbose)
 
         const {
@@ -155,7 +153,7 @@ class PostController {
                 console.log(user);
             }
 
-            const data = req.body;
+            const data = Decrypt.decrypt(req.body.data);
             const { id, content, anex } = data;
 
             const postToComment = await Post.findById(id);
