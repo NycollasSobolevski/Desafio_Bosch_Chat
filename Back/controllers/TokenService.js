@@ -33,8 +33,10 @@ class TokenService {
         
         if (verbose) {
             console.log(`Token: ${token}`)
-            console.log(`User: ${user}`)
+            console.log(`User: `)
+            console.log(user)
         }
+        
         return user
     }
 }

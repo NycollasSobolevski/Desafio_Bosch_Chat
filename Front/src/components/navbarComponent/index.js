@@ -28,7 +28,7 @@ function ColorSchemesExample() {
                     <div className={`links ${seeMenu? "menu-open":""}`}>
                         <NavLink>Create Post</NavLink>
                         <NavLink>Posts</NavLink>
-                        <NavLink>Exit</NavLink>
+                        <NavLink onClick={ () => sessionStorage.clear() }>Exit</NavLink>
                     </div>
                 </div>
             </header>
