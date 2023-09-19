@@ -2,9 +2,21 @@ import './styles.scss'
 import logo from '../../logo.svg'
 import { NavLink } from './styled';
 import { useState } from 'react';
+import CreatePost from '../PostComponents/CreatePost';
 
 function ColorSchemesExample() {
     const [seeMenu, setMenu] = useState(false)
+
+    const Logout = () => {
+        sessionStorage.clear();
+        window.location.reload();
+    }
+    const toggleCreatePost = () =>{
+        document.getElementById("create-post").classList.toggle("show")
+        document.getElementById("create-post").classList.toggle("popup")
+        document.getElementById("blur-bg").classList.toggle("show")
+        document.getElementById("blur-bg").classList.toggle("popup")
+    }
 
     return (
         <>
@@ -26,12 +38,16 @@ function ColorSchemesExample() {
                         </button>
                     </div>
                     <div className={`links ${seeMenu? "menu-open":""}`}>
-                        <NavLink>Create Post</NavLink>
+                        <NavLink onClick={() => toggleCreatePost()}>Create Post</NavLink>
                         <NavLink>Posts</NavLink>
-                        <NavLink>Exit</NavLink>
+                        <NavLink onClick={() => Logout()}>Exit</NavLink>
                     </div>
                 </div>
             </header>
+            <div id="blur-bg" onClick={() => toggleCreatePost()} className='popup'></div>
+            <div className={"create-post popup" } id='create-post'>
+                <CreatePost></CreatePost>
+            </div>
         </>
     );
 }

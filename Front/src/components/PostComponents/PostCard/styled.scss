@@ -15,9 +15,18 @@
 
   .footer{
     margin: 1rem;
-    
+
     svg{
       height: 30px;
+    }
+    .liked{
+      fill: var(--liked-primary-color);
+    }
+    .default{
+      fill: none;
+    }
+    .unliked{
+      fill: var(--unliked-primary-color);
     }
   }
 }

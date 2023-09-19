@@ -1,0 +1,23 @@
+
+.input_container{
+  display: flex;
+  flex-direction: column;
+  height: 3rem;
+  padding: .25rem 1rem .25rem 1rem ;
+  background-color: var(--natural-input-off-select);
+  border-bottom: 1px black solid;
+  width: 100%;
+  label{
+    font-size: .75rem;
+  }
+  input, .input {
+    background-color: transparent;
+  }
+  // input:focus, .input:focus{
+  //   outline: 0;
+  // }
+  
+  .input:active &{
+    background-color: aqua;
+  }
+}
