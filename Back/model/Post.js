@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const Post = mongoose.model('Puzzles', {
+const Post = mongoose.model('Post', {
     title: String,
     content: String,
     anex: Object,
