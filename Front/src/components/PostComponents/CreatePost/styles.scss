@@ -1,0 +1,22 @@
+.create-post-card{
+  width: 70vw;
+  height: 60vh;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--seccondary-background);
+  gap: 20px;
+  padding: 3rem;
+
+  .textarea-container{
+    height: 150px;
+  }
+
+  button{
+    padding: .75rem 1rem .75rem 1rem;
+    background-color: var(--button-primary-color);
+    color: var(--button-primary-font-color);
+  }
+}

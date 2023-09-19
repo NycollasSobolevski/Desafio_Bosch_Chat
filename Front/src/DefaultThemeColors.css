@@ -1,14 +1,27 @@
 :root{
   --Bosch-Red-50: #ED0007;
+  --Bosch-Red-80: #FFB2B2;
+  --Bosch-Red-75: #FF9D9D;
   --Bosch-Black: #000;
-  --Bosch-Gray-90: #e0e2e5;
+  --Bosch-Gray-95: #EFF1F2;
+  --Bosch-Gray-90: #D1E4FF;
+  --Bosch-Gray-85: #D0D4D8;
+  --Bosch-Gray-80: #C1C7CC;
+  --Bosch-Gray-75: #B2B9C0;
+  --Bosch-Blue-90: #7EBDFF;
+  --Bosch-Blue-75: #7EBDFF;
+  --Bosch-Blue-80: #9DC9FF;
   --Bosch-Blue-50: #007bc0;
   --Bosch-White: #fff;
 }
 
 :root{
   --integrated_enabled_span:var(--Bosch-Black);
-  --natural-input-off-select: var(--Bosch-Gray-90);
+  --natural-input-off-select: var(--Bosch-Gray-85);
+  --natural-input-focused-select: var(--Bosch-Blue-90);
+  --seccondary-background: var(--Bosch-Gray-95) ;
   --button-primary-color: var(--Bosch-Blue-50);
   --button-primary-font-color: var(--Bosch-White);
+  --liked-primary-color: var(--Bosch-Blue-80);
+  --unliked-primary-color: var(--Bosch-Red-80);
 }

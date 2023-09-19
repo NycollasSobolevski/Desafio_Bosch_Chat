@@ -133,6 +133,29 @@ header{
     }
   }
 }
-
-
-
+#blur-bg{
+  height: 100vh;
+  width: 100vw;
+  backdrop-filter: blur(2px);
+  position: absolute;
+  top: 0;left: 0;
+  z-index: 1;
+}
+.create-post{
+  position: absolute;
+  top: 0;left: 0;right: 0;bottom: 0;
+  margin: auto;
+  width: 70vw;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color:var(--Bosch-White);
+  z-index: 2;
+}
+.show{
+  display: fixed;
+}
+.popup{
+  display: none;
+}
