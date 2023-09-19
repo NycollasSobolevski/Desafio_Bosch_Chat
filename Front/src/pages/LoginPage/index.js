@@ -23,7 +23,7 @@ const LoginPage = () => {
         console.log(res);
 
         if (res.status == 200) {
-            sessionStorage.setItem('jwt', res.token);
+            sessionStorage.setItem('jwt', res.data.token);
         }
         window.location.reload();
     }

@@ -1,0 +1,23 @@
+.container{
+  border: 1px solid black;
+  width: 70vw;
+  
+  .header{
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    h4, p {
+      margin: 0;
+    }
+  }
+
+  .footer{
+    margin: 1rem;
+    
+    svg{
+      height: 30px;
+    }
+  }
+}
