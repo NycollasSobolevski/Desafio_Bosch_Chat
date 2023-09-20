@@ -2,55 +2,80 @@ import { useCallback, useState } from 'react'
 import './styles.scss'
 import UserService from '../../services/user/userService';
 import CryptoJS from 'crypto-js';
-import axios from "axios";
+import PopupComponent from '../../components/popupComponent';
 
 const LoginPage = () => {
     const [subscribe, setSubscribe] = useState(false);
     const encryptPassword = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD;
+    const [alert, setAlert] = useState(
+        //<PopupComponent message='a' showMore='anb' />
+    );
 
     //!functions
     const Login = async (params) => {
-        const data = {
-            emailUser: params.emailUser,
-            password: params.password
-        }
-        const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString()
-        const body = {
-            data : encryptData
-        }
-        console.log(body);
-        const res = await UserService.login(body);
-        console.log(res);
+        try {
+            const data = {
+                emailUser: params.emailUser,
+                password: params.password
+            }
+            const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString()
+            const body = {
+                data : encryptData
+            }
+            
+            const res = await UserService.login(body);
+            if (res.status == 200) {
+                sessionStorage.setItem('jwt', res.data.token);
+            }
+            window.location.reload();
 
-        if (res.status == 200) {
-            sessionStorage.setItem('jwt', res.data.token);
+        } catch (e) {
+            setAlert(<PopupComponent message='Error: Unknown Error' showMore={e.message} />)
         }
-        window.location.reload();
     }
     const SignUp = async (params) => {
-        console.log(encryptPassword);
-        const { username, email, password, repassword } = params;
-        if (password != repassword) return;
-        const data = {
-            name: username,
-            pass: password,
-            photo: "photo",
-            backphoto: "backphoto",
-            username: username,
-            email: email,
-            //!test area 
-            verbose: true
-        }
-        const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString();
-        const body = {
-            data: encryptData
-        }
         try {
+            const { username, email, password, repassword } = params;
+
+            if (!username || !email || !password || !repassword)
+            {
+                setAlert(<PopupComponent message='All * camps has to be filled' showMore='Username, email and password must have a value' />)
+                window.alert('preenche bobo');
+
+                console.log(alert)
+                return
+            }
+
+            if (password != repassword)
+            {
+                setAlert(<PopupComponent message='The password must be the same' showMore='The password must be equals' />)
+                window.alert('senha errada bobo');
+
+                console.log(alert)
+                return
+            }
+
+
+            const data = {
+                name: username,
+                pass: password,
+                photo: "photo",
+                backphoto: "backphoto",
+                username: username,
+                email: email,
+            }
+
+            const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString();
+            const body = {
+                data: encryptData
+            }
+
             const res = await UserService.createUser(body);
-            console.log(res);
-        }
-        catch (exp) {
-            console.log(exp);
+            if (res.status == 200)
+                window.location.reload()
+
+        } catch (e) {
+            setAlert(<PopupComponent message='Error: Unknown Error' showMore={e.message} />)
         }
     }
 
@@ -119,7 +144,7 @@ const LoginPage = () => {
                     </span>
                     <div className={"ButtonSession"}>
                         <button onClick={() => setSubscribe(false)}>Login</button>
-                        <button type="submit" onClick={() => SignUp(data)}>Submit</button>
+                        <button onClick={() => SignUp(data)}>Submit</button>
                     </div>
                 </div>
             </>
@@ -130,6 +155,7 @@ const LoginPage = () => {
         <>
             <LoginComponent />
             <SubscribeComponent />
+            { alert }
         </>
     )
 }

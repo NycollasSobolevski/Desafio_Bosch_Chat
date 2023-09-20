@@ -2,17 +2,27 @@ import { useEffect, useState } from "react"
 import './style.css'
 
 const PopupComponent = (props) => {
+
+    const [showMore, setShowMore] = useState(
+        <>
+            { props.showMore }
+        </>
+    )
+
     const [popup, setPopup] = useState(
-    <>
-        <div class="alert bg-warning col col-md-6 col-lg-6 col-sm-10">
-            <button class="alert-icon" type="button" aria-label="Close" onClick={ () =>
-                setPopup() }>
-                <span aria-hidden="true">&times;</span>
-            </button>
-        <div class="alert-contet">
-            { props.message }</div>
+    <div className="alert">
+        <button class="alert-icon" type="button" aria-label="Close" onClick={ () =>
+            setPopup() }>
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div className="alert-contet col-8">
+            { props.message }
         </div>
-    </>
+        <details className="alert-showmore col-4">
+            <summary> Show More (for nerds!) </summary>
+            { showMore }
+        </details>
+    </div>
     );
 
 
