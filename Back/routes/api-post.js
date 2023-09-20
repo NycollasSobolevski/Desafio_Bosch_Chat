@@ -3,8 +3,8 @@ const router = express.Router();
 const PostController = require('../controllers/PostController')
 
 router
-    .get('/post/', PostController.getAll)
-    .post('/post/', PostController.create)
+    .post('/post/getAll/:page', PostController.getAll)
+    .post('/post/create', PostController.create)
     .post('/post/delete', PostController.delete)
     .post('/post/comment', PostController.addComment)
 

@@ -5,6 +5,7 @@ var schema = new mongoose.Schema({
     title: String,
     content: String,
     anex: Object,
+    postedAt : Date,
     upVotes: [Object],
     downVotes: [Object],
     comments: [ { type : mongoose.Schema.Types.ObjectId, ref: 'Comment' } ],
