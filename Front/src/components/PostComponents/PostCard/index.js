@@ -1,22 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import profileImage from "./perfil-image.png"
 import './styled.scss'
-function PostCard() {
+function PostCard(params) {
   const [liked, setLiked] = useState(false);
 
-  const data = {
-    title: "title",
-    content:  "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt, reprehenderit optio officia nobis adipisci dolorum recusandae vitae, pariatur reiciendis officiis ea iure dicta odio rem, modi placeat fugiat distinctio minus?",
-    anex: "",
-    upVotes: true,
-    downVotes: false,
-    author: "author name"
-  }
+  const data = params.data
 
   const LikedPost = () => {
-    console.log('liked');
-    data.upVotes = !data.upVotes;
-    console.log(data.upVotes);
+    console.log(params);
+
+    // console.log('liked');
+    // data.upVotes = !data.upVotes;
+    // console.log(data.upVotes);
   }
 
   const getLike = () => {

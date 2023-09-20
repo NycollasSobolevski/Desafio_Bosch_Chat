@@ -10,6 +10,7 @@ const LoginPage = () => {
 
     //!functions
     const Login = async (params) => {
+        console.log("login");
         const data = {
             emailUser: params.emailUser,
             password: params.password
@@ -28,7 +29,7 @@ const LoginPage = () => {
         window.location.reload();
     }
     const SignUp = async (params) => {
-        console.log(encryptPassword);
+        console.log("pas:"+encryptPassword);
         const { username, email, password, repassword } = params;
         if (password != repassword) return;
         const data = {
@@ -47,7 +48,8 @@ const LoginPage = () => {
         }
         try {
             const res = await UserService.createUser(body);
-            console.log(res);
+            if(res.status == 200)
+                window.location.reload()
         }
         catch (exp) {
             console.log(exp);
