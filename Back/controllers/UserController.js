@@ -6,15 +6,15 @@ const Token = require('./TokenService')
 
 class UserController {
     static async getAll (req, res) {
-        const { verbose } = req.body
-
-        if (verbose)
-        {
-            console.log('req: ' + req)
-            console.log('getall')
-        }
-
         try {
+            const { verbose } = req.body
+
+            if (verbose)
+            {
+                console.log('req: ' + req)
+                console.log('getall')
+            }
+        
             const data = await User.find()
     
             return res.status(200).send({
@@ -31,47 +31,53 @@ class UserController {
     }
 
     static async create (req, res) {
-        const { verbose } = req.body
-
-        if (verbose)
-        {
-            console.log('req: ')
-            console.log(req.body)
-            console.log('user create')
-        }
-
-        const data = await Decrypt.decrypt(req.body.data)
-
-        const {
-            name,
-            pass,
-            photo,
-            backPhoto,
-            username,
-            email
-        } = data
-
-        var passGen = generatePass(pass)
-        
-        
-        if (verbose)
-            console.log(passGen)
-
-        const user = {
-            name: name,
-            pass: passGen.hash,
-            salt: passGen.salt,
-            backPhoto: backPhoto,
-            photo: photo,
-            username: username,
-            email: email
-        } 
-
-        if (verbose)
-            console.log(user)
-
-
         try {
+            const { verbose } = req.body
+
+            if (verbose)
+            {
+                console.log('req: ')
+                console.log(req.body)
+                console.log('user create')
+            }
+
+            const data = await Decrypt.decrypt(req.body.data)
+
+            const {
+                name,
+                pass,
+                photo,
+                backPhoto,
+                username,
+                email
+            } = data
+
+            var passGen = generatePass(pass)
+            
+            
+            if (verbose)
+                console.log(passGen)
+
+            const user = {
+                name: name,
+                pass: passGen.hash,
+                salt: passGen.salt,
+                backPhoto: backPhoto,
+                photo: photo,
+                username: username,
+                email: email
+            } 
+
+            if (verbose)
+                console.log(user)
+
+            const alreadyExists = await User.findOne({
+                $or : { username : user.username, email : email }
+            })
+
+            if (alreadyExists)
+                return Responses.BadRequest(req, res)
+
             const response = await User.create(user)
 
             return res.status(200).send({
@@ -98,52 +104,57 @@ class UserController {
     }
 
     static async update (req, res) {
+        try {
+            const { verbose } = req.body
 
-        const { verbose } = req.body
+            if (verbose) {
+                console.log('log');
+                console.log(req.body)
+            }
 
-        if (verbose) {
-            console.log('log');
-            console.log(req.body)
+            const {
+                id,
+                name,
+                pass,
+                photo,
+                backPhoto,
+                username,
+            } = req.body
+
+            const oldUser = await User.findById(id)
+
+            if (!oldUser)
+                Responses.NotFound(req, res)
+
+            const newUser = {
+                name: name ? oldUser.name : name,
+                pass: pass ? oldUser.pass : pass,
+                photo: photo ? oldUser.photo : photo,
+                backPhoto: backPhoto ? oldUser.backPhoto : backPhoto,
+                username: username ? oldUser.username : username,
+                email: oldUser.email
+            }
+
+            return res.status(200).send({
+                message: 'tudo guti',
+                data : newUser,
+                oldData : oldUser
+            })
+        } catch (e) {
+            return res.status(500).send({
+                error: true,
+                message: e.message
+            })
         }
-
-        const {
-            id,
-            name,
-            pass,
-            photo,
-            backPhoto,
-            username,
-        } = req.body
-
-        const oldUser = await User.findById(id)
-
-        if (!oldUser)
-            Responses.NotFound(req, res)
-
-        const newUser = {
-            name: name ? oldUser.name : name,
-            pass: pass ? oldUser.pass : pass,
-            photo: photo ? oldUser.photo : photo,
-            backPhoto: backPhoto ? oldUser.backPhoto : backPhoto,
-            username: username ? oldUser.username : username,
-            email: oldUser.email
-        }
-
-        return res.status(200).send({
-            message: 'tudo guti',
-            data : newUser,
-            oldData : oldUser
-        })
     }
 
     static async getById(req, res) {
-        const { id } = req.body
-
-        if (!id)
-            return Responses.BadRequest(req, res)
-
-
         try {
+            const { id } = req.body
+
+            if (!id)
+                return Responses.BadRequest(req, res)
+
             const response = await User.findById(id)
 
             return res.status(200).send({
@@ -162,14 +173,15 @@ class UserController {
     }
 
     static async login(req, res) {
-        const data = await Decrypt.decrypt(req.body.data, req.body.verbose)
-        
-        const {
-            emailUser,
-            pass
-        } = data
-
         try {
+            const data = await Decrypt.decrypt(req.body.data, req.body.verbose)
+            
+            const {
+                emailUser,
+                pass
+            } = data
+
+        
             var userByEmail = await User.findOne({ email : emailUser })
 
             if (!userByEmail)

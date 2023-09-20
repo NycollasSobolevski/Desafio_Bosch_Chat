@@ -27,6 +27,15 @@ class PostController {
                 .sort( { postedAt : -1 } )
                 .skip(20 * (page - 1))
                 .limit(20 * page)
+                .populate('author', 'name')
+                .populate({
+                    path: 'comments',
+                    populate: {
+                        path: 'author',
+                        model: 'User',
+                        select: 'name'  // 'name' é o campo que queremos popular para o autor do comentário
+                    }
+                })
 
             return res.status(200).send({
                 message: 'Tudo Guti!',
