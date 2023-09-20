@@ -11,6 +11,11 @@ class PostService  {
     console.log(data);
     return axios.post(`${this.backUrl}/post/create`, {...data, verbose: true})
   }
+
+  static createComment = async (data) => {
+    console.log(data);
+    return axios.post(`${this.backUrl}/post/comment`, data)
+  }
 }
 
 export default PostService;
