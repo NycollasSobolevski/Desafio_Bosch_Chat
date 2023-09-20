@@ -7,6 +7,7 @@ import {  CounterProvider } from './Context/Counter';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/Home';
+import PopupComponent from './components/popupComponent';
 
 function App() {
 
