@@ -12,18 +12,21 @@ function CreatePost(parameters) {
     title:title,
     content:content,
     anex: {},
-    author: sessionStorage.getItem('jwt') ?? ""
   }
 
   const createPost = async (data) => {
-    if(data.author == "")
-      return
+    
 
     const encryptPassword = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD;
     const encryptDataString = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString()
     const body = {
+      token: sessionStorage.getItem('jwt') ?? "",
       data: encryptDataString
     }
+    
+    if(body.token == "")
+      return
+
     try{
       const res = await PostService.createPost(body)
   
@@ -48,7 +51,7 @@ function CreatePost(parameters) {
         <textarea type="text" name="content" id="content" onChange={(e) => setContent( e.target.value )} className='input' />
       </span>
       <span>
-        <button>Submit</button>
+        <button onClick={() => createPost(data)}>Submit</button>
       </span>
     </div>
   )
