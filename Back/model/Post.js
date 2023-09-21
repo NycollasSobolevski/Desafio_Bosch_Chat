@@ -6,8 +6,8 @@ var schema = new mongoose.Schema({
     content: String,
     anex: Object,
     postedAt : Date,
-    upVotes: [Object],
-    downVotes: [Object],
+    upVotes: [ { type : mongoose.Schema.Types.ObjectId, ref: 'User' } ],
+    downVotes: [ { type : mongoose.Schema.Types.ObjectId, ref: 'User' } ],
     comments: [ { type : mongoose.Schema.Types.ObjectId, ref: 'Comment' } ],
     author: { type : mongoose.Schema.Types.ObjectId, ref: 'User' }
 })

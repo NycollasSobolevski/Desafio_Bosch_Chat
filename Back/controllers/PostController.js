@@ -47,7 +47,6 @@ class PostController {
     }
 
     static async create(req, res) {
-        console.log(req.body);
         const { verbose, token } = req.body
 
         var isLogged = await TokenService.verifyToken(token)
@@ -155,9 +154,9 @@ class PostController {
     }
 
     static async addComment(req, res) {
-        const { verbose, token } = req.body;
-
         try {
+            const { verbose, token } = req.body;
+
             const user = await TokenService.getUserByToken(token);
             if (!user)
                 return Responses.Unauthorized(req, res);
@@ -205,6 +204,74 @@ class PostController {
                 error: true,
                 message: e.message
             });
+        }
+    }
+
+    static async like(req, res) {
+        try {
+            const { verbose, token } = req.body
+    
+            const user = await TokenService.getUserByToken(token);
+            if (!user)
+                return Responses.Unauthorized(req, res);
+        
+            const data = await Decrypt.decrypt(req.body.data)
+            const { postId } = data
+            
+            const updatedPost = await Post.findByIdAndUpdate(postId, {
+                $pull: { downVotes: user._id },
+                $addToSet: { upVotes: user._id }  // Add user's ID to upVotes array, using $addToSet to avoid duplicates
+            });
+
+            if (!updatedPost)
+                return Responses.NotFound(req, res)
+            
+
+            res.status(200).send({
+                success: true,
+                message: 'Post liked successfully.',
+                post: updatedPost
+            })
+
+        } catch (e) {
+            res.status(500).send({
+                error: true,
+                message: e.message
+            })
+        }
+    }
+
+    static async unlike(req, res) {
+        try {
+            const { verbose, token } = req.body
+    
+            const user = await TokenService.getUserByToken(token);
+            if (!user)
+                return Responses.Unauthorized(req, res);
+        
+            const data = await Decrypt.decrypt(req.body.data)
+            const { postId } = data
+
+            const updatedPost = await Post.findByIdAndUpdate(postId, {
+                $pull: { upVotes: user._id },
+                $addToSet: { downVotes: user._id }  // Add user's ID to upVotes array, using $addToSet to avoid duplicates
+            });
+
+            if (!updatedPost)
+                return Responses.NotFound(req, res)
+
+
+            res.status(200).send({
+                success: true,
+                message: 'Post liked successfully.',
+                post: updatedPost
+            })
+
+        } catch (e) {
+            res.status(500).send({
+                error: true,
+                message: e.message
+            })
         }
     }
 }
