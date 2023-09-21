@@ -13,6 +13,7 @@ function PostCard(params) {
     // data.upVotes = !data.upVotes;
     // console.log(data.upVotes);
   }
+  
   const getLike = () => {
     if (data.upVotes)
       return "liked"
@@ -20,35 +21,42 @@ function PostCard(params) {
       return "unliked"
     return "default"
   }
+
   const toggleComment = () => {
     setCommentArea(!commentArea)
   }
 
-  const renderComment = (data) => {
-    console.log(data);
+  const createComment = (data) => {
     return (
       <>
         <Comment data={data} />
       </>
     )
   }
-  const renderComments = () => {
+
+  const setRenderComment = () => {
     var list = []
-    data.comments.forEach(commentParam => {
-      list.push(renderComment(commentParam))
+
+    data.comments.forEach(element => {
+      list.push(createComment(element))
     });
+
+    setComment(list)
   }
-  const toggledComment = () => {
-    if (commentArea) {
+
+  const commentsRender = () => {
+      if (!commentArea)
+        return
       return (
         <>
-          <h6>Comments</h6>
-          {renderComments()}
-          <AddComment data={params.data} />
+        {comment}
+        <AddComment data={data} />
         </>
       )
-    }
   }
+
+  useEffect(() => setRenderComment(), [data])
+
   return (
     <>
       <div className="container">
@@ -56,7 +64,7 @@ function PostCard(params) {
           <img src={profileImage} height={50} alt="profile-image" />
           <span>
             <h4>{data.title}</h4>
-            <p>{data.author.name}</p>
+            {/* <p>{data.author.name}</p> */}
           </span>
         </div>
         <hr />
@@ -77,7 +85,7 @@ function PostCard(params) {
           </div>
         </div>
         <>
-          {toggledComment()}
+          { commentsRender() }
         </>
       </div>
     </>

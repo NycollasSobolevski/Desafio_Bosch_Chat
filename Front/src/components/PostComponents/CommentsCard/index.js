@@ -3,10 +3,11 @@ import CryptoJS from 'crypto-js';
 import PostService from "../../../services/post/postService";
 
 function Comment(params) {
-  console.log("Params"+params);
+  console.log("Params");
+  console.log(params);
   return(
     <>
-      <h3>XALALA</h3>
+      <p>{params.data.content}</p>
     </>
   )
 }
