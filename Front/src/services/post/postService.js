@@ -8,13 +8,19 @@ class PostService  {
   }
 
   static createPost = async (data) => {
-    console.log(data);
     return axios.post(`${this.backUrl}/post/create`, {...data, verbose: true})
   }
 
   static createComment = async (data) => {
-    console.log(data);
     return axios.post(`${this.backUrl}/post/comment`, data)
+  }
+
+  static sendLike = async (data) => {
+    return axios.post(`${this.backUrl}/post/like`, data)
+  }
+  static sendUnlike = async (data) => {
+    console.log(this.backUrl);
+    return axios.post(`${this.backUrl}/post/deslike`, data)
   }
 }
 

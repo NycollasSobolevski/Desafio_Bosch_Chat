@@ -19,15 +19,28 @@
 
     svg{
       height: 30px;
+      fill: var(--button-primary-font-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .default{
+      fill: #666;
     }
     .liked{
       fill: var(--liked-primary-color);
     }
-    .default{
-      fill: none;
-    }
+
     .unliked{
       fill: var(--unliked-primary-color);
     }
+    #dislike {
+      transform: scaleY(-1) translateY(20%) ;
+
+    }
+    #like {
+      transform: translateY(15%) 
+    }
+
   }
 }
