@@ -8,9 +8,9 @@
   --Bosch-Gray-85: #D0D4D8;
   --Bosch-Gray-80: #C1C7CC;
   --Bosch-Gray-75: #B2B9C0;
-  --Bosch-Blue-90: #7EBDFF;
-  --Bosch-Blue-75: #7EBDFF;
+  --Bosch-Blue-90: #D1E4FF;
   --Bosch-Blue-80: #9DC9FF;
+  --Bosch-Blue-75: #7EBDFF;
   --Bosch-Blue-50: #007bc0;
   --Bosch-White: #fff;
 }
@@ -24,4 +24,5 @@
   --button-primary-font-color: var(--Bosch-White);
   --liked-primary-color: var(--Bosch-Blue-80);
   --unliked-primary-color: var(--Bosch-Red-80);
+  --border-color: var(--Bosch-Black);
 }

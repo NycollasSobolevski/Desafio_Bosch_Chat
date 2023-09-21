@@ -49,8 +49,10 @@ function PostCard(params) {
         return
       return (
         <>
-        {comment}
-        <AddComment data={data} />
+          <hr />
+          <h6>Comments</h6>
+          {comment}
+          <AddComment data={data} />
         </>
       )
   }
