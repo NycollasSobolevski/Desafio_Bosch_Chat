@@ -1,15 +1,20 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import './styles.scss'
 import UserService from '../../services/user/userService';
 import CryptoJS from 'crypto-js';
-import AlertComponent from '../../components/alertComponent';
+import Komponentem from '../../components/tooltipComponent'
 
 const LoginPage = () => {
     const [subscribe, setSubscribe] = useState(false);
     const encryptPassword = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD;
-    const [alert, setAlert] = useState(
-        //<AlertComponent message='a' showMore='anb' />
-    );
+    const [tooltip, setTooltip] = useState(
+        <Komponentem 
+        function={ () => (setShowtooltip(!showTooltip))}
+        message='mensagem do pai pro filho testando a funcao'
+        showMore='Mostrando mais'
+        />
+    )
+    const [showTooltip, setShowtooltip] = useState(true)
 
     //!functions
     const Login = async (params) => {
@@ -30,7 +35,6 @@ const LoginPage = () => {
             window.location.reload();
 
         } catch (e) {
-            setAlert(<AlertComponent message='Error: Unknown Error' showMore={e.message} />)
         }
     }
     const SignUp = async (params) => {
@@ -39,7 +43,6 @@ const LoginPage = () => {
 
             if (!username || !email || !password || !repassword)
             {
-                setAlert(<AlertComponent message='All * camps has to be filled' showMore='Username, email and password must have a value' />)
                 window.alert('preenche bobo');
 
                 console.log(alert)
@@ -48,7 +51,6 @@ const LoginPage = () => {
 
             if (password != repassword)
             {
-                setAlert(<AlertComponent message='The password must be the same' showMore='The password must be equals' />)
                 window.alert('senha errada bobo');
 
                 console.log(alert)
@@ -75,10 +77,14 @@ const LoginPage = () => {
                 window.location.reload()
 
         } catch (e) {
-            setAlert(<AlertComponent message='Error: Unknown Error' showMore={e.message} />)
         }
     }
 
+    const isTooltip = () => {
+        if (showTooltip)
+            return tooltip
+        return <></>
+    }
 
     //!components
     const LoginComponent = () => {
@@ -155,7 +161,9 @@ const LoginPage = () => {
         <>
             <LoginComponent />
             <SubscribeComponent />
-            { alert }
+            <div>
+                { isTooltip() }
+            </div>
         </>
     )
 }

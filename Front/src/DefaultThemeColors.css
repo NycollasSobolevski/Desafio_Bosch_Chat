@@ -1,18 +1,26 @@
 :root{
-  --Bosch-Red-50: #ED0007;
+  --Bosch-Red-90: #FFD9D9;
   --Bosch-Red-80: #FFB2B2;
   --Bosch-Red-75: #FF9D9D;
+  --Bosch-Red-50: #ED0007;
+
   --Bosch-Black: #000;
+  --Bosch-White: #fff;
+
   --Bosch-Gray-95: #EFF1F2;
   --Bosch-Gray-90: #D1E4FF;
   --Bosch-Gray-85: #D0D4D8;
   --Bosch-Gray-80: #C1C7CC;
   --Bosch-Gray-75: #B2B9C0;
+
   --Bosch-Blue-90: #D1E4FF;
   --Bosch-Blue-80: #9DC9FF;
   --Bosch-Blue-75: #7EBDFF;
   --Bosch-Blue-50: #007bc0;
-  --Bosch-White: #fff;
+  
+  --Bosch-Green-90: #b8efc9;
+
+  --Bosch-Yellow-90: #FFDF95;
 }
 
 :root{
@@ -25,4 +33,8 @@
   --liked-primary-color: var(--Bosch-Blue-80);
   --unliked-primary-color: var(--Bosch-Red-80);
   --border-color: var(--Bosch-Black);
+  
+  --bosch-error: var(--Bosch-Red-90);
+  --bosch-warning: var(--Bosch-Yellow-90);
+  --bosch-success: var(--Bosch-Green-90);
 }

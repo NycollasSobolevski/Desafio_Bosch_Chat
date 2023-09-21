@@ -218,21 +218,32 @@ class PostController {
             const data = await Decrypt.decrypt(req.body.data)
             const { postId } = data
             
-            const updatedPost = await Post.findByIdAndUpdate(postId, {
-                $pull: { downVotes: user._id },
-                $addToSet: { upVotes: user._id }  // Add user's ID to upVotes array, using $addToSet to avoid duplicates
-            });
+            const post = await Post.findById(postId);
 
-            if (!updatedPost)
+            if (!post) {
                 return Responses.NotFound(req, res)
-            
+            }
+
+            const isAlreadyLiked = post.upVotes.includes(user._id);
+
+            let updatedPost;
+            if (isAlreadyLiked) {
+                updatedPost = await Post.findByIdAndUpdate(postId, {
+                    $pull: { upVotes: user._id } 
+                }, { new: true });
+                
+            } else {
+                updatedPost = await Post.findByIdAndUpdate(postId, {
+                    $pull: { downVotes: user._id },  // Remove user's ID from downVotes array if present
+                    $addToSet: { upVotes: user._id }  // Add user's ID to upVotes array, using $addToSet to avoid duplicates
+                }, { new: true });
+            }
 
             res.status(200).send({
                 success: true,
                 message: 'Post liked successfully.',
-                post: updatedPost
+                data: updatedPost
             })
-
         } catch (e) {
             res.status(500).send({
                 error: true,
@@ -252,19 +263,31 @@ class PostController {
             const data = await Decrypt.decrypt(req.body.data)
             const { postId } = data
 
-            const updatedPost = await Post.findByIdAndUpdate(postId, {
-                $pull: { upVotes: user._id },
-                $addToSet: { downVotes: user._id }  // Add user's ID to upVotes array, using $addToSet to avoid duplicates
-            });
+            const post = await Post.findById(postId);
 
-            if (!updatedPost)
+            if (!post) {
                 return Responses.NotFound(req, res)
+            }
 
+            const isAlreadyDisliked = post.downVotes.includes(user._id);
+
+            let updatedPost;
+            if (isAlreadyDisliked) {
+                updatedPost = await Post.findByIdAndUpdate(postId, {
+                    $pull: { downVotes: user._id } 
+                }, { new: true });
+                
+            } else {
+                updatedPost = await Post.findByIdAndUpdate(postId, {
+                    $pull: { upVotes: user._id },  // Remove user's ID from upvotesVotes array if present
+                    $addToSet: { downVotes: user._id }  // Add user's ID to downVotes array, using $addToSet to avoid duplicates
+                }, { new: true });
+            }
 
             res.status(200).send({
                 success: true,
-                message: 'Post liked successfully.',
-                post: updatedPost
+                message: 'Post disliked successfully.',
+                data: updatedPost
             })
 
         } catch (e) {

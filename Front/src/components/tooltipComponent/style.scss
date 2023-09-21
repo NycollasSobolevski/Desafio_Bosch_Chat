@@ -1,0 +1,22 @@
+.tooltip {
+  position: fixed;
+}
+
+.tooltip-error {
+  background-color: var(--bosch-error);
+}
+
+.tooltip-warning {
+  background-color: var(--bosch-warning);
+}
+
+.tooltip-success {
+  background-color: var(--bosch-success);
+}
+
+.close-button {
+  color: var(--natural-input-off-select);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
