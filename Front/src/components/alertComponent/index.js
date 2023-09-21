@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import './style.css'
 
-const PopupComponent = (props) => {
+const AlertComponent = (props) => {
 
     const [showMore, setShowMore] = useState(
         <>
@@ -34,4 +34,4 @@ const PopupComponent = (props) => {
 }
 
 
-export default PopupComponent
+export default AlertComponent

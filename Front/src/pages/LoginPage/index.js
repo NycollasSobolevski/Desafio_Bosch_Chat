@@ -2,13 +2,13 @@ import { useCallback, useState } from 'react'
 import './styles.scss'
 import UserService from '../../services/user/userService';
 import CryptoJS from 'crypto-js';
-import PopupComponent from '../../components/popupComponent';
+import AlertComponent from '../../components/alertComponent';
 
 const LoginPage = () => {
     const [subscribe, setSubscribe] = useState(false);
     const encryptPassword = process.env.REACT_APP_ENCRYPT_DATA_PASSWORD;
     const [alert, setAlert] = useState(
-        //<PopupComponent message='a' showMore='anb' />
+        //<AlertComponent message='a' showMore='anb' />
     );
 
     //!functions
@@ -30,7 +30,7 @@ const LoginPage = () => {
             window.location.reload();
 
         } catch (e) {
-            setAlert(<PopupComponent message='Error: Unknown Error' showMore={e.message} />)
+            setAlert(<AlertComponent message='Error: Unknown Error' showMore={e.message} />)
         }
     }
     const SignUp = async (params) => {
@@ -39,7 +39,7 @@ const LoginPage = () => {
 
             if (!username || !email || !password || !repassword)
             {
-                setAlert(<PopupComponent message='All * camps has to be filled' showMore='Username, email and password must have a value' />)
+                setAlert(<AlertComponent message='All * camps has to be filled' showMore='Username, email and password must have a value' />)
                 window.alert('preenche bobo');
 
                 console.log(alert)
@@ -48,7 +48,7 @@ const LoginPage = () => {
 
             if (password != repassword)
             {
-                setAlert(<PopupComponent message='The password must be the same' showMore='The password must be equals' />)
+                setAlert(<AlertComponent message='The password must be the same' showMore='The password must be equals' />)
                 window.alert('senha errada bobo');
 
                 console.log(alert)
@@ -75,7 +75,7 @@ const LoginPage = () => {
                 window.location.reload()
 
         } catch (e) {
-            setAlert(<PopupComponent message='Error: Unknown Error' showMore={e.message} />)
+            setAlert(<AlertComponent message='Error: Unknown Error' showMore={e.message} />)
         }
     }
 
