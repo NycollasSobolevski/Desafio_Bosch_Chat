@@ -13,6 +13,7 @@ const LoginPage = () => {
 
     //!functions
     const Login = async (params) => {
+<<<<<<< HEAD
         try {
             const data = {
                 emailUser: params.emailUser,
@@ -28,12 +29,46 @@ const LoginPage = () => {
                 sessionStorage.setItem('jwt', res.data.token);
             }
             window.location.reload();
+=======
+        console.log("login");
+        const data = {
+            emailUser: params.emailUser,
+            password: params.password
+        }
+        const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString()
+        const body = {
+            data : encryptData
+        }
+        console.log(body);
+        const res = await UserService.login(body);
+        console.log(res);
+>>>>>>> dc9544156a834a080515a3e67dc230f768b4a7a6
 
         } catch (e) {
             setAlert(<PopupComponent message='Error: Unknown Error' showMore={e.message} />)
         }
     }
     const SignUp = async (params) => {
+<<<<<<< HEAD
+=======
+        console.log("pas:"+encryptPassword);
+        const { username, email, password, repassword } = params;
+        if (password != repassword) return;
+        const data = {
+            name: username,
+            pass: password,
+            photo: "photo",
+            backphoto: "backphoto",
+            username: username,
+            email: email,
+            //!test area 
+            verbose: true
+        }
+        const encryptData = CryptoJS.AES.encrypt( JSON.stringify(data), encryptPassword ).toString();
+        const body = {
+            data: encryptData
+        }
+>>>>>>> dc9544156a834a080515a3e67dc230f768b4a7a6
         try {
             const { username, email, password, repassword } = params;
 
@@ -71,11 +106,19 @@ const LoginPage = () => {
             }
 
             const res = await UserService.createUser(body);
+<<<<<<< HEAD
             if (res.status == 200)
                 window.location.reload()
 
         } catch (e) {
             setAlert(<PopupComponent message='Error: Unknown Error' showMore={e.message} />)
+=======
+            if(res.status == 200)
+                window.location.reload()
+        }
+        catch (exp) {
+            console.log(exp);
+>>>>>>> dc9544156a834a080515a3e67dc230f768b4a7a6
         }
     }
 

@@ -7,6 +7,19 @@ import CreatePost from '../PostComponents/CreatePost';
 function ColorSchemesExample() {
     const [seeMenu, setMenu] = useState(false)
 
+    const verifyLoged = () => {
+        const jwt = sessionStorage.getItem('jwt')??""
+        if(jwt != "")
+            return (
+                <div className={`links ${seeMenu? "menu-open":""}`}>
+                <NavLink onClick={() => toggleCreatePost()}>Create Post</NavLink>
+                <NavLink>Posts</NavLink>
+                <NavLink onClick={() => Logout()}>Exit</NavLink>
+            </div>
+        )
+        return
+    }
+
     const Logout = () => {
         sessionStorage.clear();
         window.location.reload();
@@ -37,11 +50,7 @@ function ColorSchemesExample() {
                             <div>Menu</div>
                         </button>
                     </div>
-                    <div className={`links ${seeMenu? "menu-open":""}`}>
-                        <NavLink onClick={() => toggleCreatePost()}>Create Post</NavLink>
-                        <NavLink>Posts</NavLink>
-                        <NavLink onClick={() => Logout()}>Exit</NavLink>
-                    </div>
+                   {verifyLoged()}
                 </div>
             </header>
             <div id="blur-bg" onClick={() => toggleCreatePost()} className='popup'></div>
